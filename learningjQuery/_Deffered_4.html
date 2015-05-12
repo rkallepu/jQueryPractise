@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../bower_components/jQuery/dist/jquery.js"></script>
+    <script>
+        $(function (){
+            var url = 'https://api.github.com/search/repositories';
+            var deferred = $.get(url + '?q=nodejs');
+            console.log(deferred);
+            /*// basic version - for demo only
+             $.when.apply($, ['nodejs', 'express', 'angular'].map(function (term) {
+             return $.Deferred(function (defer) {
+             $.getJSON(url, {
+             q: term
+             }, function (data) {
+             defer.resolve(data);
+             }).fail(function (jqXHR) {
+             defer.reject(jqXHR);
+             });
+             }).promise();
+             })).then(function () {
+             console.log(arguments);
+             });*/
+            // easier way
+            $.when.apply($, ['nodejs', 'express', 'angular'].map(function (term) {
+                return $.getJSON(url, {
+                    q: term
+                }).promise();
+            })).then(function () {
+                console.log(arguments);
+            });
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

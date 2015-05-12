@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../bower_components/jQuery/dist/jquery.js"></script>
+    <script>
+        $(function (){
+           /* $('input[type="file"]').on('change', function(event){
+                var fileReader = new FileReader();
+
+                fileReader.addEventListener('loadend', function (){
+                    console.log(this.result);
+                });
+
+                fileReader.readAsDataURL(this.files[0]);
+            });*/
+            $('input[type="file"]').bind('change', function(event){
+                var file = this.files[0];
+
+                var promise = createImageReaderPromise(file);
+
+                promise.then(function (data){
+                    $('<img>').attr('src', data).css({
+                        maxWidth: '500px',
+                        float: 'left'
+                    }).appendTo('#results');
+                });
+            });
+
+        });
+        function createImageReaderPromise(file){
+            return new Promise(function (resolve, reject){
+                var fileReader = new FileReader();
+
+                fileReader.addEventListener('loadend', function (){
+                    resolve(this.result);
+                });
+                fileReader.addEventListener('error', function (){
+                    reject();
+                });
+                fileReader.readAsDataURL(file);
+            });
+        }
+    </script>
+</head>
+<body>
+    <input type="file" multiple/>
+    <div id="results"></div>
+</body>
+</html>

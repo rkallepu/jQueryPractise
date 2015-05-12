@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../bower_components/jQuery/dist/jquery.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(events) {
+
+            HTMLElement.prototype.on = function (events) {
+                var selector, data, handler;
+                var elem = this;
+
+
+                function addListener(element, events, _handler){
+                    console.log('Inside addListener');
+                    events.split(' ').forEach(function (event){
+                        if(event.data)
+                            console.log(event.data);
+                        element.addEventListener(event, _handler);
+                    });
+                }
+
+                switch (arguments.length){
+                    case 2: handler = arguments[1];
+                            console.log('inside case 2');
+                            addListener(elem, events, handler);
+                            break;
+                    case 3: if(typeof arguments[1] === 'string'){
+                                console.log('Inside case 3');
+                                selector = arguments[1];
+                                handler = arguments[2];
+                                //console.log(elem.querySelector(selector));
+                                addListener(elem, events, function(event){
+                                    var matched_children = Array.prototype.slice.call(elem.querySelectorAll(selector));
+
+                                    if(matched_children.indexOf(event.target) !== -1){
+                                        handler.call(elem, event);
+                                    }
+                                });
+                            }else{
+                                data = arguments[1];
+                                handler = arguments[2];
+                                addListener(elem, events, function(event){
+                                    event.data = data;
+                                    handler.call(elem, event);
+                                });
+                            }
+                            break;
+                    case 4: selector = arguments[1];
+                            data = arguments[2];
+                            handler = arguments[3];
+                            addListener(elem, events, function(event){
+                                events.data = data;
+                                var matched_children = Array.prototype.slice.call(elem.querySelectorAll(selector));
+                                if (matched_children.indexOf(event.target) !== -1) {
+                                    handler.call(elem, event);
+                                }
+                            });
+                }
+            };
+
+
+
+            $(function () {
+                document.body.firstElementChild.on('click', function (event) {
+                    console.log(event);
+                });
+                document.body.firstElementChild.on('click', 'span', function (event) {
+                    console.log('This event is fired for only the span elements ... ');
+                });
+                document.body.firstElementChild.on('click', {name: 'Chris'}, function (event) {
+                    console.log('Name', event.data.name);
+                });
+               /* document.body.firstElementChild.on('click', 'span', {name: 'Chris'}, function (event) {
+                    console.log('Name:', event.data.name);
+                });*/
+            });
+        });
+    </script>
+</head>
+<body>
+<div>
+    <p>Paragraph One</p>
+    <p>Paragraph <span>Two (Click Here)</span></p>
+    <p>Paragraph Three</p>
+</div>
+</body>
+</html>

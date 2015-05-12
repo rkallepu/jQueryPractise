@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src = "../bower_components/jQuery/dist/jquery.js"></script>
+    <script>
+        $(function(){
+            //Request Headers - Accept
+            //$.get('https://api.github.com/search/repositories?q=nodejs');
+            //$.get('https://api.github.com/search/repositories?', {q: 'nodejs'});
+            /*$.getJSON( "https://api.github.com/search/repositories?q=nodejs", function( data ) {
+                console.log(data);
+              view(data);
+            });*/
+            //console.log($.getJSON("https://api.github.com/search/repositories?q=nodejs"));
+            $.getJSON("https://api.github.com/search/repositories?q=nodejs").then(function (data){
+                console.log(data);
+            }, function (jqXHR){
+                console.log(jqXHR);
+            });
+        });
+        function view(data){
+            //jquery code to display the information - repo name, owner login and link to repository
+
+            var $results_div = $('#results');
+           // $results_div.html('Some Info');
+
+          /* data.items.forEach(function (item){
+                //console.log(item);
+               $('<div>').addClass('repo').appendTo($results_div)
+                       .append($('div').html(item.full_name))
+                        .append($('div').html(item.owner.login))
+            });*/
+
+            data.items.forEach(function (item) {
+                $('<div>').addClass('repo').appendTo($results_div)
+                        .append($('<div>').html(item.full_name))
+                        .append($('<div>').html(item.owner.login))
+            });
+       }
+    </script>
+</head>
+<body>
+    <div id="results"></div>
+</body>
+</html>

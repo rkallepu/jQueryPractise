@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src = "../bower_components/jQuery/dist/jquery.js"></script>
+    <script>
+        $(function(){
+          /* $('input').val('Rashmika').keydown(function (event){
+               console.log(event);
+               console.log($(this));
+               console.log($(this).val('Raymond'));
+           });*/
+            /*$('input').keydown(function (event){
+                event.preventDefault();
+                console.log(event.which);
+                console.log(event.keyCode);
+            });*/
+            $('input').val('').keypress(function (event){
+
+               // console.log(event.key);
+                var char = String.fromCharCode(event.charCode);
+                console.log(char);
+                if(/[<>;]/.test(char)){
+                    event.preventDefault();
+                }
+            });
+            //$('').on('event');
+        });
+
+    </script>
+</head>
+<body>
+<input type="text" />
+</body>
+</html>
