@@ -1,2 +1,1 @@
-# magellan-May-11
-jQuery
+# jQuery Practise
